@@ -1,0 +1,52 @@
+﻿@page "/gridcolumnsearch"
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<PageTitle>QuickGrid</PageTitle>
+
+<h3>QuickGrid - Column Search</h3>
+
+<div class="grid" tabindex="-1">
+    <QuickGrid Items="@FilteredTransactions">
+        <PropertyColumn Property="@(p => p.TransactionId)" Title="ID" Sortable="true" />
+        <PropertyColumn Title="Description" Property="@(p => p.Description)" Sortable="true" InitialSortDirection="SortDirection.Ascending" IsDefaultSortColumn="true">
+            <ColumnOptions>
+                <div class="search-box">
+                    <input type="search" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Description name..." />
+                </div>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property="@(p => p.Type)" Title="Type" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Date)" Title="Birth date" Format="yyyy-MM-dd" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Amount)" Title="Amount" Format="C2" Sortable="true" />
+    </QuickGrid>
+</div>
+
+@code {
+    IQueryable<Transaction>? transactions;
+    string nameFilter = string.Empty;
+
+    IQueryable<Transaction>? FilteredTransactions =>
+        transactions?.Where(x => x.Description.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase));
+
+    public record Transaction(int TransactionId, string Description, string Type, DateOnly Date, decimal Amount);
+
+    protected override async Task OnInitializedAsync()
+    {
+        transactions = (await GetData());
+    }
+
+    public async Task<IQueryable<Transaction>> GetData()
+    {
+        IQueryable<Transaction> tx = new[]
+        {
+            new Transaction(10895, "Bob's Books", "Debit", new DateOnly(1985, 3, 16), 27.33m),
+            new Transaction(10944, "Pubs Groceries", "Debit", new DateOnly(1991, 12, 1), 18.37m),
+            new Transaction(11203, "QuickGrid Bank", "Widthdrawal", new DateOnly(1958, 10, 10), 80.00m),
+            new Transaction(11205, "Check 465", "Check", new DateOnly(1922, 4, 27), 27.00m),
+            new Transaction(11898, "Village Pantry", "Debit", new DateOnly(2011, 5, 3), 12.17m),
+            new Transaction(12130, "Tally Market", "Debit", new DateOnly(2004, 1, 9), 1711.68m)
+    }.AsQueryable();
+
+        return tx;
+    }
+}

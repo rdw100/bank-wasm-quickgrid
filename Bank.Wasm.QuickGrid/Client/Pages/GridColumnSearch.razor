@@ -7,8 +7,9 @@
 
 <div class="grid" tabindex="-1">
     <QuickGrid Items="@FilteredTransactions">
-        <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMMM-dd" Sortable="true" />
-        <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true" InitialSortDirection="SortDirection.Ascending" IsDefaultSortColumn="true">
+        <PropertyColumn Property="@(tx => tx.TransactionId)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
+        <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"  />
+        <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true">
             <ColumnOptions>
                 <div class="search-box">
                     <input type="search" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Description name..." />
@@ -16,8 +17,8 @@
             </ColumnOptions>
         </PropertyColumn>
         <PropertyColumn Property="@(tx => tx.Type)" Title="Type" Sortable="true" />        
-        <PropertyColumn Property="@(tx => tx.Amount)" Title="Amount" Format="C2" Sortable="true"/>
-        <PropertyColumn Property="@(tx => tx.Balance)" Title="Balance" Format="C2" Sortable="true" />
+        <PropertyColumn Property="@(tx => tx.Amount)" Title="Amount" Format="C2" Align="Align.Right"/>
+        <PropertyColumn Property="@(tx => tx.Balance)" Title="Balance" Format="C2" Align="Align.Right" />
         <TemplateColumn Title="Actions">
             <button @onclick="@(() => ViewTx(context))">View</button>
         </TemplateColumn>
@@ -28,7 +29,6 @@
     IQueryable<Transaction>? transactions;
     string nameFilter = string.Empty;
     string message = string.Empty;
-    decimal balance = 2745.32m;
 
     IQueryable<Transaction>? FilteredTransactions =>
         transactions?.Where(tx => tx.Description.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase));
@@ -37,23 +37,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-        transactions = (await GetData(balance));
+        transactions = (await GetData());
     }
 
-    public async Task<IQueryable<Transaction>> GetData(decimal balance)
+    public async Task<IQueryable<Transaction>> GetData()
     {
         IQueryable<Transaction> tx = new[]
         {
-            new Transaction(10890, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 13), 80m, -80m),
-            new Transaction(10891, "BART", "Debit", new DateOnly(2022, 9, 14), 20m, -20m),
-            new Transaction(10892, "The Cheese Board", "Debit", new DateOnly(2022, 9, 15), 11.05m, -11.05m),
-            new Transaction(10893, "Monterey Market", "Debit", new DateOnly(2022, 9, 15), 43.6m, -43.6m),
-            new Transaction(10894, "Bank of The World", "Deposit", new DateOnly(2022, 9, 15), 1711.68m, 1711.68m),
-            new Transaction(10895, "Local 123", "Debit", new DateOnly(2022, 9, 16), 12.17m, -12.17m),
-            new Transaction(10896, "Check 465", "Check", new DateOnly(2022, 9, 17), 27.00m, -27.00m),
-            new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 17), 80.00m, -80.00m),
-            new Transaction(10898, "Bill's books", "Debit", new DateOnly(2022, 9, 19), 18.37m, -18.37m),
-            new Transaction(10899, "Balgreens", "Debit", new DateOnly(2022, 9, 20), 27.33m, -27.33m)
+            new Transaction(10890, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 13), -80m, 2745.32M),
+            new Transaction(10891, "BART", "Debit", new DateOnly(2022, 9, 14), -20m, 2725.32m),
+            new Transaction(10892, "The Cheese Board", "Debit", new DateOnly(2022, 9, 15), -11.05m, 2714.27m),
+            new Transaction(10893, "Monterey Market", "Debit", new DateOnly(2022, 9, 15), -43.6m, 2670.67m),
+            new Transaction(10894, "Bank of The World", "Deposit", new DateOnly(2022, 9, 15), 1711.68m, 4382.35m),
+            new Transaction(10895, "Local 123", "Debit", new DateOnly(2022, 9, 16), -12.17m, 4307.18m),
+            new Transaction(10896, "Check 465", "Check", new DateOnly(2022, 9, 17), -27.00m, 4343.18m),
+            new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 17), -80.00m, 4263.18m),
+            new Transaction(10898, "Bill's books", "Debit", new DateOnly(2022, 9, 19), -18.37m, 4244.81m),
+            new Transaction(10899, "Balgreens", "Debit", new DateOnly(2022, 9, 20), -27.33m, 4217.48m)
         }.AsQueryable();
 
         return tx;

@@ -1,7 +1,7 @@
 ﻿/* Fix height and enable scrolling */
 .grid {
     height: 25rem;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
     .grid ::deep table {

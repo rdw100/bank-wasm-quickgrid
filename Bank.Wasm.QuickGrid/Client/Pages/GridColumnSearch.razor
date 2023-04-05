@@ -5,8 +5,36 @@
 
 <h3>QuickGrid - Column Search</h3>
 
+<nav class="navbar navbar-expand-lg bg-body-tertiary" aria-label="breadcrumb">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">All Accounts</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checking</li>
+        </ol>
+        <span class="d-flex">
+            @DateTime.Now.ToString("D")
+        </span>
+    </div>
+</nav>
+
+<div class="my-2">
+    <div class="search-box inline-block mr-4 my-1">
+        <h3>Checking Account</h3>
+    </div>
+    <div class="inline-block my-1">
+        <h5>Available Balance:</h5><h4>$4,217.48</h4>
+    </div>
+</div>
+
+<div class="my-2">
+    <div class="search-box inline-block mr-4 my-1">
+        <input type="search" autofocus @bind="nameFilter" placeholder="Description name..." />
+        <button>Search</button>
+    </div>
+</div>
+
 <div class="grid" tabindex="-1">
-    <QuickGrid Items="@FilteredTransactions">
+    <QuickGrid Items="@FilteredTransactions" >
         <PropertyColumn Property="@(tx => tx.TransactionId)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
         <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"  />
         <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true">
@@ -25,13 +53,27 @@
     </QuickGrid>
 </div>
 
+<div class="my-2">
+    <div class="inline-block my-1">
+        <strong>@message</strong>
+    </div>
+</div>
+
 @code {
     IQueryable<Transaction>? transactions;
+    Ranges dateFilter = 0;
     string nameFilter = string.Empty;
+    string searchFilter = string.Empty;
     string message = string.Empty;
+    int numResults;
 
-    IQueryable<Transaction>? FilteredTransactions =>
-        transactions?.Where(tx => tx.Description.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase));
+    IQueryable<Transaction>? FilteredTransactions
+    {
+        get
+        {
+            return transactions?.Where(tx => tx.Description.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase));
+        }
+    }
 
     public record Transaction(int TransactionId, string Description, string Type, DateOnly Date, decimal Amount, decimal Balance);
 
@@ -54,10 +96,17 @@
             new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 17), -80.00m, 4263.18m),
             new Transaction(10898, "Bill's books", "Debit", new DateOnly(2022, 9, 19), -18.37m, 4244.81m),
             new Transaction(10899, "Balgreens", "Debit", new DateOnly(2022, 9, 20), -27.33m, 4217.48m)
-        }.AsQueryable();
+    }.AsQueryable();
 
         return tx;
     }
 
-    void ViewTx(Transaction tx) => message = $"You want to view {tx.TransactionId} {tx.Amount}";
+    void ViewTx(Transaction tx) => message = $"You selected record {tx.TransactionId}.";
+
+    enum Ranges : ushort
+    {
+        None = 0,
+        Month = 1,
+        Previous = 2        
+    }
 }

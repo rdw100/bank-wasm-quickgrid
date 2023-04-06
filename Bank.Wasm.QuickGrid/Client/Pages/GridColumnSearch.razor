@@ -5,24 +5,24 @@
 
 <h3>QuickGrid - Column Search</h3>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary" aria-label="breadcrumb">
-    <div class="container-fluid">
+<div class="row">
+    <div class="col-auto me-auto">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">All Accounts</a></li>
             <li class="breadcrumb-item active" aria-current="page">Checking</li>
         </ol>
-        <span class="d-flex">
-            @DateTime.Now.ToString("D")
-        </span>
     </div>
-</nav>
+    <div class="col-auto">
+        @DateTime.Now.ToString("D")
+    </div>
+</div>
 
-<div class="my-2">
-    <div class="search-box inline-block mr-4 my-1">
-        <h3>Checking Account</h3>
+<div class="row">
+    <div class="col-auto me-auto">
+        <h5>Checking Account</h5>
     </div>
-    <div class="inline-block my-1">
-        <h5>Available Balance:</h5><h4>$4,217.48</h4>
+    <div class="col-auto">
+        <h5>Available Balance:<strong>$4,217.48</strong></h5>
     </div>
 </div>
 
@@ -33,10 +33,23 @@
     </div>
 </div>
 
+<div class="btn-group mb-2" role="group" aria-label="Filter Button Group">
+    <button class="btn btn-outline-primary" @onclick="() => UpdateDateFilter(Ranges.None)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+        </svg> &nbsp;All
+    </button>
+    <button class="btn btn-outline-primary" @onclick="() => UpdateDateFilter(Ranges.Month)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+        </svg> &nbsp;Current
+    </button>
+</div>
+
 <div class="grid" tabindex="-1">
     <QuickGrid Items="@FilteredTransactions" >
         <PropertyColumn Property="@(tx => tx.TransactionId)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
-        <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"  />
+        <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"/>
         <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true">
             <ColumnOptions>
                 <div class="search-box">
@@ -71,7 +84,14 @@
     {
         get
         {
-            return transactions?.Where(tx => tx.Description.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase));
+            if (dateFilter == Ranges.Month)
+            {
+                return transactions?.Where(tx => tx.Date.Month == DateTime.Today.Month);
+            }
+            else
+            {
+                return transactions?.Where(tx => tx.Description.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
         }
     }
 
@@ -86,22 +106,28 @@
     {
         IQueryable<Transaction> tx = new[]
         {
-            new Transaction(10890, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 13), -80m, 2745.32M),
-            new Transaction(10891, "BART", "Debit", new DateOnly(2022, 9, 14), -20m, 2725.32m),
-            new Transaction(10892, "The Cheese Board", "Debit", new DateOnly(2022, 9, 15), -11.05m, 2714.27m),
-            new Transaction(10893, "Monterey Market", "Debit", new DateOnly(2022, 9, 15), -43.6m, 2670.67m),
-            new Transaction(10894, "Bank of The World", "Deposit", new DateOnly(2022, 9, 15), 1711.68m, 4382.35m),
-            new Transaction(10895, "Local 123", "Debit", new DateOnly(2022, 9, 16), -12.17m, 4307.18m),
-            new Transaction(10896, "Check 465", "Check", new DateOnly(2022, 9, 17), -27.00m, 4343.18m),
-            new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2022, 9, 17), -80.00m, 4263.18m),
-            new Transaction(10898, "Bill's books", "Debit", new DateOnly(2022, 9, 19), -18.37m, 4244.81m),
-            new Transaction(10899, "Balgreens", "Debit", new DateOnly(2022, 9, 20), -27.33m, 4217.48m)
-    }.AsQueryable();
+            new Transaction(10889, "Deli", "Debit", new DateOnly(2023,3,30), -20m, 2825.32M),
+            new Transaction(10890, "Bank of The World", "Withdrawal", new DateOnly(2023, 4, 13), -80m, 2745.32M),
+            new Transaction(10891, "BART", "Debit", new DateOnly(2023, 4, 14), -20m, 2725.32m),
+            new Transaction(10892, "The Cheese Board", "Debit", new DateOnly(2023, 4, 15), -11.05m, 2714.27m),
+            new Transaction(10893, "Monterey Market", "Debit", new DateOnly(2023, 4, 15), -43.6m, 2670.67m),
+            new Transaction(10894, "Bank of The World", "Deposit", new DateOnly(2023, 4, 15), 1711.68m, 4382.35m),
+            new Transaction(10895, "Local 123", "Debit", new DateOnly(2023, 4, 16), -12.17m, 4307.18m),
+            new Transaction(10896, "Check 465", "Check", new DateOnly(2023, 4, 17), -27.00m, 4343.18m),
+            new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2023, 4, 17), -80.00m, 4263.18m),
+            new Transaction(10898, "Bill's books", "Debit", new DateOnly(2023, 4, 19), -18.37m, 4244.81m),
+            new Transaction(10899, "Balgreens", "Debit", new DateOnly(2023, 4, 20), -27.33m, 4217.48m)
+        }.AsQueryable();
 
         return tx;
     }
 
     void ViewTx(Transaction tx) => message = $"You selected record {tx.TransactionId}.";
+
+    private void UpdateDateFilter(Ranges range)
+    {
+        dateFilter = range;
+    }
 
     enum Ranges : ushort
     {

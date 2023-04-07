@@ -26,24 +26,33 @@
     </div>
 </div>
 
-<div class="my-2">
-    <div class="search-box inline-block mr-4 my-1">
-        <input type="search" autofocus @bind="nameFilter" placeholder="Description name..." />
-        <button>Search</button>
+<div class="row">
+    <div class="col-auto me-auto">
+        <span class="m-md-2">Filter:</span>
+        <div class="btn-group" role="group" aria-label="Filter Button Group">
+            <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.None)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                </svg> All
+            </button>
+            <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.Month)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                </svg> Current Month
+            </button>
+            <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.Previous)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                </svg> Last Month
+            </button>
+        </div>
     </div>
-</div>
-
-<div class="btn-group mb-2" role="group" aria-label="Filter Button Group">
-    <button class="btn btn-outline-primary" @onclick="() => UpdateDateFilter(Ranges.None)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-        </svg> &nbsp;All
-    </button>
-    <button class="btn btn-outline-primary" @onclick="() => UpdateDateFilter(Ranges.Month)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-        </svg> &nbsp;Current
-    </button>
+    <div class="col-auto">
+        <div class="search-box inline-block mr-4 my-1">
+            <input type="search" autofocus @bind="nameFilter" placeholder="Description name..." />
+            <button type="button" class="btn btn-primary">Search</button>
+        </div>
+    </div>
 </div>
 
 <div class="grid" tabindex="-1">
@@ -87,6 +96,10 @@
             if (dateFilter == Ranges.Month)
             {
                 return transactions?.Where(tx => tx.Date.Month == DateTime.Today.Month);
+            }
+            else if (dateFilter == Ranges.Previous)
+            {
+                return transactions?.Where(tx => tx.Date.Month == DateTime.Today.AddMonths(-1).Month);
             }
             else
             {

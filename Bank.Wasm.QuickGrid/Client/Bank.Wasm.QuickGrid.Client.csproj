@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\w3css\" />
+    <Folder Include="wwwroot\css\w3css\lib\" />
   </ItemGroup>
 
 </Project>

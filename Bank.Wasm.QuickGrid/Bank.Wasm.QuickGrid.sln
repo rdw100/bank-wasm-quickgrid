@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Wasm.QuickGrid.Server", "Server\Bank.Wasm.QuickGrid.Server.csproj", "{D3FAFEDC-885D-4581-B0B5-AB265DB5857A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.Wasm.QuickGrid.Server", "Server\Bank.Wasm.QuickGrid.Server.csproj", "{D3FAFEDC-885D-4581-B0B5-AB265DB5857A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Wasm.QuickGrid.Client", "Client\Bank.Wasm.QuickGrid.Client.csproj", "{4976DF80-91DB-48E2-A392-66DB2C2729E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.Wasm.QuickGrid.Client", "Client\Bank.Wasm.QuickGrid.Client.csproj", "{4976DF80-91DB-48E2-A392-66DB2C2729E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Wasm.QuickGrid.Shared", "Shared\Bank.Wasm.QuickGrid.Shared.csproj", "{0F8C5121-6F7D-4BB4-AD92-5680FC37EB94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.Wasm.QuickGrid.Shared", "Shared\Bank.Wasm.QuickGrid.Shared.csproj", "{0F8C5121-6F7D-4BB4-AD92-5680FC37EB94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

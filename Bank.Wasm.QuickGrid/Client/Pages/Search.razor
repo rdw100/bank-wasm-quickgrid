@@ -1,35 +1,40 @@
-﻿@page "/gridcolumnsearch"
+﻿@page "/search"
 @using Microsoft.AspNetCore.Components.QuickGrid
 
-<PageTitle>QuickGrid</PageTitle>
+<PageTitle>QuickGrid - Search</PageTitle>
 
-<h3>QuickGrid - Search</h3>
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+    <div class="w3-bar w3-light-grey w3-border">
+        <nav aria-label="Breadcrumb" class="breadcrumb w3-bar-item w3-padding" >
+            <ol>
+                <li>
+                    <a href="../../../..">Home</a>
+                </li>
+                <li>
+                    <a href="../../../">Accounts</a>
+                </li>
+                <li>
+                    <a href="" aria-current="page">Checking</a>
+                </li>
+            </ol>
+        </nav>
+        <div class="w3-right">
+            <span class="w3-bar-item">@DateTime.Now.ToString("D")</span>
+        </div>
+    </div>
 
-<div class="row">
-    <div class="col-auto me-auto">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">All Accounts</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Checking</li>
-        </ol>
+    <div class="w3-row">
+        <div class="w3-col s6">
+            <h3>Checking Account</h3>
+        </div>
+        <div class="w3-col s6">
+            <h3 class="w3-right">Available Balance:&nbsp;<strong>$4,217.48</strong></h3>
+        </div>
     </div>
-    <div class="col-auto">
-        @DateTime.Now.ToString("D")
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-auto me-auto">
-        <h5>Checking Account</h5>
-    </div>
-    <div class="col-auto">
-        <h5>Available Balance:<strong>$4,217.48</strong></h5>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-auto me-auto">
-        <span class="m-md-2">Filter:</span>
-        <div class="btn-group" role="group" aria-label="Filter Button Group">
+    <div class="w3-bar w3-grey w3-border">
+        <span class="w3-bar-item" style="margin-top:4px;"><strong>Filter:</strong></span>
+        <div class="btn-group w3-bar-item" role="group" aria-label="Filter Button Group">
             <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.None)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
                     <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
@@ -46,38 +51,36 @@
                 </svg> Last Month
             </button>
         </div>
-    </div>
-    <div class="col-auto">
-        <div class="search-box inline-block mr-4 my-1">
+        <div class="w3-right w3-padding">
             <input type="search" autofocus @bind="nameFilter" placeholder="Description name..." />
-            <button type="button" class="btn btn-primary">Search</button>
+            <button type="button" class="btn btn-primary w3-theme-d1">Search</button>
         </div>
     </div>
-</div>
 
-<div class="grid" tabindex="-1">
-    <QuickGrid Items="@FilteredTransactions" >
-        <PropertyColumn Property="@(tx => tx.TransactionId)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
-        <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"/>
-        <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true">
-            <ColumnOptions>
-                <div class="search-box">
-                    <input type="search" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Description name..." />
-                </div>
-            </ColumnOptions>
-        </PropertyColumn>
-        <PropertyColumn Property="@(tx => tx.Type)" Title="Type" Sortable="true" />        
-        <PropertyColumn Property="@(tx => tx.Amount)" Title="Amount" Format="C2" Align="Align.Right"/>
-        <PropertyColumn Property="@(tx => tx.Balance)" Title="Balance" Format="C2" Align="Align.Right" />
-        <TemplateColumn Title="Actions">
-            <button @onclick="@(() => ViewTx(context))">View</button>
-        </TemplateColumn>
-    </QuickGrid>
-</div>
+    <div class="grid" tabindex="-1">
+        <QuickGrid Items="@FilteredTransactions" >
+            <PropertyColumn Property="@(tx => tx.TransactionId)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
+            <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"/>
+            <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Description name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <PropertyColumn Property="@(tx => tx.Type)" Title="Type" Sortable="true" />        
+            <PropertyColumn Property="@(tx => tx.Amount)" Title="Amount" Format="C2" Align="Align.Right"/>
+            <PropertyColumn Property="@(tx => tx.Balance)" Title="Balance" Format="C2" Align="Align.Right" />
+            <TemplateColumn Title="Actions" Align="Align.Center">
+                <button @onclick="@(() => ViewTx(context))">View</button>
+            </TemplateColumn>
+        </QuickGrid>
+    </div>
 
-<div class="my-2">
-    <div class="inline-block my-1">
-        <strong>@message</strong>
+    <div class="w3-container">
+        <p class="w3-large">
+            <strong>@message</strong>
+        </p>
     </div>
 </div>
 

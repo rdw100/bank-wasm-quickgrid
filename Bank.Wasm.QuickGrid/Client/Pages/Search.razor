@@ -8,13 +8,13 @@
         <nav aria-label="Breadcrumb" class="breadcrumb w3-bar-item w3-padding" >
             <ol>
                 <li>
-                    <a href="../../../..">Home</a>
+                    <a href="#">Home</a>
                 </li>
                 <li>
-                    <a href="../../../">Accounts</a>
+                    <a href="#">Accounts</a>
                 </li>
                 <li>
-                    <a href="" aria-current="page">Checking</a>
+                    <a href="#" aria-current="page">Checking</a>
                 </li>
             </ol>
         </nav>
@@ -32,28 +32,29 @@
         </div>
     </div>
 
-    <div class="w3-bar w3-grey w3-border">
-        <span class="w3-bar-item" style="margin-top:4px;"><strong>Filter:</strong></span>
-        <div class="btn-group w3-bar-item" role="group" aria-label="Filter Button Group">
-            <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.None)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                </svg> All
-            </button>
-            <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.Month)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                </svg> Current Month
-            </button>
-            <button class="btn btn-link" @onclick="() => UpdateDateFilter(Ranges.Previous)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                </svg> Last Month
-            </button>
-        </div>
-        <div class="w3-right w3-padding">
-            <input type="search" autofocus @bind="nameFilter" placeholder="Description name..." />
-            <button type="button" class="btn btn-primary w3-theme-d1">Search</button>
+    <div class="w3-bar w3-grey w3-border w3-padding">
+        <span class="w3-bar-item w3-left" style="margin-top:0px;"><strong>Filter:</strong></span>
+        <button class="w3-button w3-bar-item w3-border w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.None)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+            </svg>
+            All
+        </button>
+        <button class="w3-button w3-bar-item w3-border w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.Month)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+            </svg>
+            Current
+        </button>
+        <button class="w3-button w3-bar-item w3-border w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.Previous)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+            </svg>
+            Previous
+        </button>
+        <div class="w3-right">
+            <input type="text" class="w3-bar-item w3-input w3-white w3-mobile w3-border" autofocus @bind="nameFilter" placeholder="search transactions...">
+            <button class="w3-bar-item w3-button w3-blue w3-mobile w3-border">Search</button>
         </div>
     </div>
 

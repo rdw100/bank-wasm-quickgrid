@@ -8,7 +8,13 @@ The Blazor QuickGrid component is a part of .NET 8 (available with Preview 2). Q
 - W3.CSS
 - Blazor CSS Isolation
 
-Wireframe                  |  Design #1
-:-------------------------:|:-------------------------:
-![Wireframe Mockup JPG](https://github.com/rdw100/bank-wasm-quickgrid/blob/main/Bank.Wasm.QuickGrid/Client/wwwroot/img/banking-account-large.jpg?raw=true) | ![Web Design #1](https://github.com/rdw100/bank-wasm-quickgrid/blob/main/Bank.Wasm.QuickGrid/Client/wwwroot/img/rcImp0CiMs.gif?raw=true)
+##Demonstration
 
+This project implements a Balsamiq Wireframe mockup using Blazor WASM QuickGrid.
+
+| Wireframe                  |
+|----------------------------|
+![Wireframe Mockup JPG](https://github.com/rdw100/bank-wasm-quickgrid/blob/main/Bank.Wasm.QuickGrid/Client/wwwroot/img/banking-account-large.jpg?raw=true)|
+|  Design #1                 |
+|----------------------------|
+| ![Web Design #1](https://github.com/rdw100/bank-wasm-quickgrid/blob/main/Bank.Wasm.QuickGrid/Client/wwwroot/img/rcImp0CiMs.gif?raw=true)|

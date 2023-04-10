@@ -1,10 +1,5 @@
 ﻿/* Fix height and enable scrolling */
 .grid {
-/*    height: 25rem;
-    overflow-y: auto;*/
-/*background:yellow;
-margin-top:0px;
-padding-top:0px;*/
 }
 
     .grid ::deep table {

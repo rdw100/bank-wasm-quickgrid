@@ -33,40 +33,33 @@
             </div>
         </div>
 
-        <div class="w3-bar w3-grey w3-border w3-padding">
-            <span class="w3-bar-item w3-left"><strong>Filter:</strong></span>
-            <button class="w3-button w3-bar-item w3-border w3-mobile w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.None)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                </svg>
-                All
-            </button>
-            <button class="w3-button w3-bar-item w3-border w3-mobile w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.Month)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                </svg>
-                Current
-            </button>
-            <button class="w3-button w3-bar-item w3-border w3-mobile w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.Previous)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                </svg>
-                Previous
-            </button>
+        <div class="w3-bar w3-light-grey w3-border w3-padding">
+            <span class="w3-bar-item w3-left">
+                <strong>Items per page:</strong>
+                <select @bind="@pagination.ItemsPerPage">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                </select>
+            </span>                
+            <span class="w3-bar-item w3-mobile"><strong>Filter:</strong></span>
+                <button class="w3-button w3-bar-item w3-border w3-mobile w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.None)">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;All
+                </button>
+                <button class="w3-button w3-bar-item w3-border w3-mobile w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.Month)">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>&nbsp;Current
+                </button>
+                <button class="w3-button w3-bar-item w3-border w3-mobile w3-light-grey" @onclick="() => UpdateDateFilter(Ranges.Previous)">
+                    <i class="fa fa-calendar-minus-o" aria-hidden="true"></i>&nbsp;Previous
+                </button>
+            <span class="w3-bar-item w3-mobile"><strong>Data:</strong></span>
+            <a href="#" class="w3-bar-item w3-button w3-border w3-mobile w3-light-grey"><i class="fa fa-download"></i>&nbsp;Download</a>                
+            <a href="#" class="w3-bar-item w3-button w3-border w3-mobile w3-light-grey"><i class="fa fa-print"></i>&nbsp;Print</a>
             <div class="w3-right">
                 <input type="text" class="w3-bar-item w3-input w3-white w3-mobile w3-border" autofocus @bind="nameFilter" placeholder="search transactions...">
                 <button class="w3-bar-item w3-button w3-blue w3-mobile w3-border">Search</button>
             </div>
-        </div>
-
-        <div class="page-size-chooser w3-right">
-            Items per page:
-            <select @bind="@pagination.ItemsPerPage">
-                <option>3</option>
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
-            </select>
         </div>
 
         <div class="grid" tabindex="-1">
@@ -89,7 +82,7 @@
             </QuickGrid>
         </div>
 
-        <Paginator State="@pagination" />
+        <Paginator State="@pagination"></Paginator>
 
         <div class="w3-container">
             <p class="w3-large">

@@ -44,13 +44,14 @@
 
 .page-size-chooser {
     /*display: flex;*/
-    align-items: center;
+    /*align-items: center;*/
     /*margin-bottom: 1rem;*/
+    /*background:red;*/
 }
 
     .page-size-chooser select {
-        margin: 0 1rem;
-        padding: 0.25rem 0.5rem;
+        /*margin: 0 1rem;*/
+        /*padding: 0.25rem 0.5rem;*/
     }
 
 /* Style the list */

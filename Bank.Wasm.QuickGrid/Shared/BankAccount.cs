@@ -1,4 +1,4 @@
-﻿namespace Bank.Wasm.QuickGrid.Console;
+﻿namespace Bank.Wasm.QuickGrid.Shared;
 
 public class BankAccount
 {

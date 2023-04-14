@@ -84,9 +84,9 @@ public record BankAccount
         return report.ToString();
     }
 
-    public async Task<IQueryable<Transaction>> GetData()
+    public async Task<List<Transaction>> GetQuery()
     {
-        return await Task.Run(() => transactions.AsQueryable());
+        return await Task.Run(() => transactions);
     }
 
     public List<Transaction> GetList()

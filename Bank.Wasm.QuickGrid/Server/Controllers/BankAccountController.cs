@@ -7,13 +7,12 @@ namespace Bank.Wasm.QuickGrid.Server.Controllers
     [Route("[controller]")]
     public class BankAccountController : ControllerBase
     {
-        private List<Transaction> transactions = new List<Transaction>();
+        private List<Transaction> transactions = new();
 
-        // GET: <BankAccountController>
         [HttpGet]
-        public List<Transaction> Get()
+        public async Task<List<Transaction>> Get()
         {
-            var account = new BankAccount("<name>", DateOnly.FromDateTime(DateTime.Now).AddDays(-45), 2000);
+            BankAccount account = new BankAccount("<name>", DateOnly.FromDateTime(DateTime.Now).AddDays(-45), 2000);
             account.Withdraw(780.32m, DateOnly.FromDateTime(DateTime.Now).AddDays(-44), "Wheels Dealership");
             account.Withdraw(100m, DateOnly.FromDateTime(DateTime.Now).AddDays(-43), "Village Pantry");
             account.Withdraw(25m, DateOnly.FromDateTime(DateTime.Now).AddDays(-42), "Pizza");
@@ -29,19 +28,8 @@ namespace Bank.Wasm.QuickGrid.Server.Controllers
             account.Withdraw(18.37m, DateOnly.FromDateTime(DateTime.Now).AddDays(0), "Bill's books");
             account.Withdraw(27.33m, DateOnly.FromDateTime(DateTime.Now).AddDays(5), "Mallgreens");
 
-            transactions = account.GetList();
+            transactions = await Task.Run(() => account.GetQuery());
             return transactions;
         }
-
-        // GET: <BankAccountController>
-        //[HttpGet]
-        //public async Task<List<Transaction>> Get()
-        //{
-        //    var account = new BankAccount("<name>", 1000);
-        //    account.Withdraw(500, DateTime.Now, "Rent payment");
-        //    account.Deposit(100, DateTime.Now, "friend paid me back");
-        //    transactions = await Task.Run(() => account.GetList());
-        //    return transactions;
-        //}
     }
 }

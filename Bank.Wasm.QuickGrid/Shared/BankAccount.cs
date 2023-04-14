@@ -1,6 +1,6 @@
 ﻿namespace Bank.Wasm.QuickGrid.Shared;
 
-public class BankAccount
+public record BankAccount
 {
     private static uint _number = 1234567890;
     private List<Transaction> transactions = new List<Transaction>();
@@ -27,25 +27,35 @@ public class BankAccount
         }
     }   
 
-    public BankAccount(string name, decimal initialBalance)
+    public BankAccount(string name, DateOnly date, decimal initialBalance)
     {
         Number++;
 
         Owner = name;
-        Deposit(initialBalance, DateTime.Now, "Initial balance");
+        OpenDeposit(initialBalance, date, "Initial balance");
     }
 
-    public void Deposit(decimal amount, DateTime date, string note)
+    public void OpenDeposit(decimal amount, DateOnly date, string note)
     {
         if (amount <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be positive");
         }
-        var deposit = new Transaction(amount, date, TransactionType.Deposit, note);
+        var deposit = new Transaction(amount, amount, date, note, TransactionType.Deposit);
         transactions.Add(deposit);
     }
 
-    public void Withdraw(decimal amount, DateTime date, string note)
+    public void Deposit(decimal amount, DateOnly date, string note)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be positive");
+        }
+        var deposit = new Transaction(amount, Balance, date, note, TransactionType.Deposit);
+        transactions.Add(deposit);
+    }
+
+    public void Withdraw(decimal amount, DateOnly date, string note)
     {
         if (amount <= 0)
         {
@@ -55,7 +65,7 @@ public class BankAccount
         {
             throw new InvalidOperationException("Not sufficient funds for this withdrawal");
         }
-        var withdrawal = new Transaction(-amount, date, TransactionType.Withdraw, note);
+        var withdrawal = new Transaction(-amount, Balance, date, note, TransactionType.Withdraw);
         transactions.Add(withdrawal);
     }
 
@@ -68,7 +78,7 @@ public class BankAccount
         foreach (var item in transactions)
         {
             balance += item.Amount;
-            report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Id}\t{item.Type}{item.Amount}\t{balance}\t{item.Description}");
+            report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Id}\t{item.Type} {item.Amount}\t{balance}\t{item.Description}");
         }
 
         return report.ToString();

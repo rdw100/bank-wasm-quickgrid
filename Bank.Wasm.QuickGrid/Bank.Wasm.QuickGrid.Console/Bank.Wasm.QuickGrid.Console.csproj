@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Bank.Wasm.QuickGrid.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

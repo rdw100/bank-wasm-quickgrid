@@ -1,8 +1,6 @@
-﻿using System.Formats.Asn1;
+﻿namespace Bank.Wasm.QuickGrid.Shared;
 
-namespace Bank.Wasm.QuickGrid.Shared;
-
-public class Transaction
+public record Transaction
 {
     private static uint _nextId = 12345;
     private uint _id;
@@ -17,14 +15,16 @@ public class Transaction
     }    
 
     public decimal Amount { get; }
-    public DateTime Date { get; }
+    public decimal Balance { get; }
+    public DateOnly Date { get; }
     public string Description { get; }
     public TransactionType Type { get; set; }
-
-    public Transaction(decimal amount, DateTime date, TransactionType txType, string description)
+    public Transaction() { }
+    public Transaction(decimal amount, decimal balance, DateOnly date, string description, TransactionType txType)
     {
         Id = _id;
         Amount = amount;
+        Balance = balance;
         Date = date;
         Type = txType;
         Description = description;

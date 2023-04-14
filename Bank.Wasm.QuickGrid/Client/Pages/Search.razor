@@ -1,4 +1,5 @@
 ﻿@page "/search"
+@inject HttpClient Http
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 <PageTitle>QuickGrid - Search</PageTitle>
@@ -64,7 +65,7 @@
 
         <div class="grid" tabindex="-1">
             <QuickGrid Items="@FilteredTransactions" Pagination="@pagination">
-                <PropertyColumn Property="@(tx => tx.TransactionId)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
+                <PropertyColumn Property="@(tx => tx.Id)" Title="ID" Sortable="true" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" />
                 <PropertyColumn Property="@(tx => tx.Date)" Title="Date" Format="MMM-dd" Sortable="true"/>
                 <PropertyColumn Title="Description" Property="@(tx => tx.Description)" Sortable="true">
                     <ColumnOptions>
@@ -120,37 +121,47 @@
         }
     }
 
-    public record Transaction(int TransactionId, string Description, string Type, DateOnly Date, decimal Amount, decimal Balance);
+    public record Transaction(uint Id, decimal Amount, decimal Balance, DateOnly Date, string Description, TransactionType Type);
 
     protected override async Task OnInitializedAsync()
     {
-        transactions = (await GetData());
-    }
-
-    public async Task<IQueryable<Transaction>> GetData()
-    {
-        IQueryable<Transaction> tx = new[]
+        //List<Transaction> myTx = await Http.GetFromJsonAsync<List<Transaction>>("BankAccount/");
+        
+        //IQueryable<Transaction> tx = myTx.AsQueryable();
+        //transactions = myTx.AsQueryable();
+        
+        var response = await Http.GetAsync("/bankaccount");
+        if (response.IsSuccessStatusCode)
         {
-            new Transaction(10886, "Wheels Dealership", "Debit", new DateOnly(2023, 3, 24), -780.32m, 2000.00m ),
-            new Transaction(10887, "Pantry", "Debit", new DateOnly(2023, 3, 28), -100m, 2780.32m ),
-            new Transaction(10888, "Pizza", "Debit", new DateOnly(2023, 3, 29), -25m, 2805.32m ),
-            new Transaction(10889, "Deli", "Debit", new DateOnly(2023, 3, 30), -20m, 2825.32m),
-            new Transaction(10890, "Bank of The World", "Withdrawal", new DateOnly(2023, 4, 13), -80m, 2745.32M),
-            new Transaction(10891, "BART", "Debit", new DateOnly(2023, 4, 14), -20m, 2725.32m),
-            new Transaction(10892, "The Cheese Board", "Debit", new DateOnly(2023, 4, 15), -11.05m, 2714.27m),
-            new Transaction(10893, "Monterey Market", "Debit", new DateOnly(2023, 4, 15), -43.6m, 2670.67m),
-            new Transaction(10894, "Bank of The World", "Deposit", new DateOnly(2023, 4, 15), 1711.68m, 4382.35m),
-            new Transaction(10895, "Local 123", "Debit", new DateOnly(2023, 4, 16), -12.17m, 4307.18m),
-            new Transaction(10896, "Check 465", "Check", new DateOnly(2023, 4, 17), -27.00m, 4343.18m),
-            new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2023, 4, 17), -80.00m, 4263.18m),
-            new Transaction(10898, "Bill's books", "Debit", new DateOnly(2023, 4, 19), -18.37m, 4244.81m),
-            new Transaction(10899, "Balgreens", "Debit", new DateOnly(2023, 4, 20), -27.33m, 4217.48m)
-        }.AsQueryable();
-
-        return tx;
+            var txList = await response.Content.ReadFromJsonAsync<List<Transaction>>();
+            transactions = txList.AsQueryable();
+        }
     }
 
-    void ViewTx(Transaction tx) => message = $"You selected record {tx.TransactionId}.";
+    //public async Task<IQueryable<Transaction>> GetData()
+    //{
+    //    IQueryable<Transaction> tx = new[]
+    //    {
+    //        new Transaction(10886, "Wheels Dealership", "Debit", new DateOnly(2023, 3, 24), -780.32m, 2000.00m ),
+    //        new Transaction(10887, "Pantry", "Debit", new DateOnly(2023, 3, 28), -100m, 2780.32m ),
+    //        new Transaction(10888, "Pizza", "Debit", new DateOnly(2023, 3, 29), -25m, 2805.32m ),
+    //        new Transaction(10889, "Deli", "Debit", new DateOnly(2023, 3, 30), -20m, 2825.32m),
+    //        new Transaction(10890, "Bank of The World", "Withdrawal", new DateOnly(2023, 4, 13), -80m, 2745.32M),
+    //        new Transaction(10891, "BART", "Debit", new DateOnly(2023, 4, 14), -20m, 2725.32m),
+    //        new Transaction(10892, "The Cheese Board", "Debit", new DateOnly(2023, 4, 15), -11.05m, 2714.27m),
+    //        new Transaction(10893, "Monterey Market", "Debit", new DateOnly(2023, 4, 15), -43.6m, 2670.67m),
+    //        new Transaction(10894, "Bank of The World", "Deposit", new DateOnly(2023, 4, 15), 1711.68m, 4382.35m),
+    //        new Transaction(10895, "Local 123", "Debit", new DateOnly(2023, 4, 16), -12.17m, 4307.18m),
+    //        new Transaction(10896, "Check 465", "Check", new DateOnly(2023, 4, 17), -27.00m, 4343.18m),
+    //        new Transaction(10897, "Bank of The World", "Withdrawal", new DateOnly(2023, 4, 17), -80.00m, 4263.18m),
+    //        new Transaction(10898, "Bill's books", "Debit", new DateOnly(2023, 4, 19), -18.37m, 4244.81m),
+    //        new Transaction(10899, "Balgreens", "Debit", new DateOnly(2023, 4, 20), -27.33m, 4217.48m)
+    //    }.AsQueryable();
+
+    //    return tx;
+    //}
+
+    void ViewTx(Transaction tx) => message = $"You selected record {tx.Id}.";
 
     private void UpdateDateFilter(Ranges range)
     {
@@ -162,5 +173,13 @@
         None = 0,
         Month = 1,
         Previous = 2        
+    }
+
+    public enum TransactionType
+    {
+        Withdraw = 0,
+        Deposit = 1,
+        Check = 2,
+        Debit = 3
     }
 }

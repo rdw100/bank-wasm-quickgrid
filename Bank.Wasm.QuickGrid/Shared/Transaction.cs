@@ -17,7 +17,7 @@ public record Transaction
     public decimal Amount { get; }
     public decimal Balance { get; }
     public DateOnly Date { get; }
-    public string Description { get; }
+    public string Description { get; } = string.Empty;
     public TransactionType Type { get; set; }
     public Transaction() { }
     public Transaction(decimal amount, decimal balance, DateOnly date, string description, TransactionType txType)
@@ -29,12 +29,4 @@ public record Transaction
         Type = txType;
         Description = description;
     }
-}
-
-public enum TransactionType
-{ 
-    Withdraw = 0,
-    Deposit = 1,
-    Check = 2,
-    Debit = 3
 }
